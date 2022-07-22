@@ -21,7 +21,7 @@ function App() {
 				<Route path='/:category' element={<Catalog />} />
 				<Route path='/' exact element={<Home />} />
 			</Routes>
-      <Footer/>
+      		<Footer/>
 		</Router>
 	);
 }
