@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useHistory } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import tmdbApi, { category, movieType } from "../../api/tmdbApi";
@@ -18,7 +19,7 @@ const HeroSlide = () => {
 				const response = await tmdbApi.getMoviesList(movieType.popular, {
 					params,
 				});
-				setMovieItems(response.results.slice(1, 4));
+				setMovieItems(response.results.slice(0, 4));
 				console.log(response);
 			} catch {
 				console.log("error");
@@ -49,7 +50,7 @@ const HeroSlide = () => {
 };
 
 const HeroSlideItem = props => {
-	//let history = useHistory();
+	let navigate = useNavigate();
 
 	const item = props.item;
 
@@ -63,7 +64,7 @@ const HeroSlideItem = props => {
 			style={{ backgroundImage: `url(${background})` }}
         >
 			<div className="hero-slide__item__content container">
-                <div className="hero-slide__item__content info">
+                <div className="hero-slide__item__content__info">
                     <h2 className="title">
                         {item.title}
                     </h2>
@@ -71,12 +72,17 @@ const HeroSlideItem = props => {
                         {item.overview}
                     </div>
                     <div className="btns">
-                        <Button>
-
+                        <Button onClick={() => navigate.push('/movie/' + item.id)}>
+                            Watch now
                         </Button>
+                        <OutlineButton onClick={() => console.log('trailer')}>
+                            Watch trailer
+                        </OutlineButton>
                     </div>
                 </div>
-                <div className="hero-slide__item__content poster"></div>
+                <div className="hero-slide__item__content poster">
+                    <img src={apiConfig.w500Image(item.poster_path)} alt="" />
+                </div>
             </div>
 		</div>
 	);
